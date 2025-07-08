@@ -258,4 +258,36 @@ document.addEventListener('visibilitychange', () => {
         // 页面显示时的处理
         console.log('页面显示');
     }
+});
+
+// 语言切换功能
+function setLanguage(lang) {
+    document.querySelectorAll('.lang-zh').forEach(el => {
+        el.style.display = (lang === 'zh') ? '' : 'none';
+    });
+    document.querySelectorAll('.lang-en').forEach(el => {
+        el.style.display = (lang === 'en') ? '' : 'none';
+    });
+    // 按钮高亮
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.dataset.lang === lang) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    // 记住用户选择
+    localStorage.setItem('lang', lang);
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        setLanguage(this.dataset.lang);
+    });
+});
+
+// 页面加载时根据本地存储设置语言
+window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('lang') || 'zh';
+    setLanguage(savedLang);
 }); 
